@@ -1,0 +1,79 @@
+1. 다음 이항 연산자 '+'가 호출하는 오버로딩 함수 두개를 고르세요.
+
+Point p1, p2;
+p1 + p2;
+
+1) operator+(p2, p1);
+2) p1.operator+(p2);
+3) operator+(p1,p2);
+4) p2.operator(p1);
+
+// 2, 3
+
+
+2. 다음처럼 세 인자를 받는 () 연산자 오버로딩 함수 선언으로 맞는 것은?
+
+    func(10, 20, 30);
+
+1) void operator()(void);
+2) void operator()(int);
+3) void operator()(int, int);
+4) void operator()(int, int, int);
+
+// 4
+
+
+3. 다음 배열 클래스의 정수 원소를 참조하기 위한 [] 연산자 오버로딩 함수 선언으로 맞는 것은?
+
+    array[0];
+
+1) void operator[](int);
+2) int operator[]();
+3) int operator[](int);
+4) int operator()[];
+
+// 3
+
+
+4. 다음이 컴파일 될 수 있게 최소한의  String 클래스를 작성하세요.
+
+    String s("Hello!");
+    const char * sz = s;
+
+
+/*
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class String{
+    char buf[100];
+public:
+    String(const char* sz){
+        strcpy(buf, sz); // sz를 읽어 char* 를 복사하여 buf로 가져옴
+    }
+
+    operator const char* () const{ // 타입 변환 연산자
+        return buf;
+    }
+};
+
+int main(){
+    String s("Hello!");
+    const char* sz = s;
+
+    cout << sz << endl;
+
+    return 0;
+}
+*/
+
+
+5. 다음이 컴파일 될 수 있게 최소한의  String 클래스를 작성하세요.
+
+    const char* sz = "Hello!";
+    String s("Hi~!");
+    s = sz;
+
+//
