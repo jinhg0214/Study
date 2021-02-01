@@ -16,3 +16,25 @@
 
 - find(), find_if(), find_end(), find_first_of()
 // 특정 원소를 찾는 알고리즘
+
+- for_each()
+// 순차열의 모든 원소에 사용자 동작을 적용
+// nonmodifying, modifying에 모두 해당됨
+
+- lexicographical_compare() 
+// 문자열 비교처럼 순차열의 사전순 비교 
+// [v1.begin(),v1.end())가, [v2.begin(), v2.end())보다 사전순서가 less인가? 혹은 greater인가?
+
+- min(), max()
+// 최대 최소값
+
+- mismatch()
+// [b, e)와 [b2, b2+(e-b))를 비교하여, 
+// 원소 값이 서로 다른 첫 원소의 반복자 쌍을 반환함(v1과 v2의 값이 달라지는 지점)
+
+- search()
+// [v1.begin(), v1.end()) 와 [v2.begin(),v2.end())를 비교하여 순차열이 일치하는지 판단하여,
+//일치하는 순차열 구간이 여러개라면 첫 번째 순차열의 첫 원소 반복자를 반환함
+
+- search(b,e,n,x) 
+// [b,e) 구간에서 원소 x가 n번 반복되는 첫 원소의 반복자를 반환
