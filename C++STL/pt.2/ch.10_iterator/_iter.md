@@ -54,4 +54,40 @@ iterator 와 같은 기능을 제공하는 역방향 반복자 형식
         cout << *riter << " ";
 
 역방향 반복자는 반복자가 가리키는 원소와 실제 값이 다름!!   
-역방향 반복자는 가리키는 다음 원소의 값을 참조함!
+역방향 반복자는 가리키는 다음 원소의 값을 참조   
+
+* * *
+
+## 삽입 반복자
+
+순차열에 원소를 삽입(insert)할 수 있게 반복자를 변환하는 반복자 어댑터   
+- inserter(): inserter_iterator 객체를 생성. 컨테이너의 insert() 멤버 함수를 호출해 삽입 모드로 동작   
+- back_inserter(): back_inserter_iterator를 통해 push_back() 멤버 함수를 호출. (vector, deque, list만)
+- front_inserter(): front_inserter_iterator ''(deque, list만)
+
+* * *
+
+## 입/출력 스트림 반복자
+
+스트림과 연결된 반복자   
+알고리즘이 스트림에 읽고 쓸 수 있게 하는 반복자 어댑터   
+- istream_iterator<T> : 입력 스트림과 연결된 반복자로 T 형식의 값을 스트림에서 읽을 수 있음
+- ostream_iterator<T> : 출력 ''
+
+* * *
+
+## 반복자 특성과 보조 함수
+### 보조 함수
+- advance(p,n) : p 반복자를 p+=n 의 위치로 이동시킴
+- n = distance(p1, p2) : n은 p2-p1   
+
+vector는 임의 접근 반복자를 제공하므로 v.end()-v.begin()이 가능하지만,   
+list는 양방향 반복자를 제공하므로, lt.end()-lt.begin()이 불가능함
+
+     iterator_traits<vector<int>::iterator>::difference_type n = distnace(lt.begin(), lt.end());
+을 이용하여 거리를 구할 수 있음
+
+* * *
+
+### 반복자 특성
+??
