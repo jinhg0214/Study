@@ -1,0 +1,28 @@
+#include <iostream>
+
+using namespace std;
+
+int evid[7] = { -1,0,0,1,2,4,4 };
+int timeStamp[7] = { 8,3,5,6,8,9,10 };
+
+
+
+void recursion(int n) {
+
+
+
+	if (evid[n] == -1) {
+		cout << n << "번index(출발)" << endl;
+		return;
+	}
+	recursion(evid[n]);
+	cout << n << "번index(" << timeStamp[n] << "시)" <<endl;
+}
+
+int main() {
+	int input;
+	cin >> input;
+
+	recursion(input);
+
+}
