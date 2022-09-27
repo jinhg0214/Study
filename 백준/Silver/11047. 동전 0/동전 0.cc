@@ -14,7 +14,8 @@ int main() {
 	}
 
 	int cnt = 0;
-	for (int i = N - 1; i >= 0; i--) {
+	/* 내 풀이
+    for (int i = N - 1; i >= 0; i--) {
 		if (K == 0) break;
 		while (K > 0) {
 			if (K - price[i] >= 0) {
@@ -25,6 +26,11 @@ int main() {
 				break;
 			}
 		}
+	}*/
+    // 더 좋은 풀이
+	for (int i = N - 1; i >= 0; i--) {
+		cnt += K / price[i];
+		K = K % price[i];
 	}
 	
 	printf("%d", cnt);
