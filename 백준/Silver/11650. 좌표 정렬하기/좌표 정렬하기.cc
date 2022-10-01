@@ -1,19 +1,19 @@
 #include <iostream>
-#include <algorithm> 
+#include <algorithm>
 
 using namespace std;
 
 struct node {
 	int x;
 	int y;
+	
+	bool operator<(const node &n2) {
+		if (this->x < n2.x) return true;
+		if (this->x > n2.x) return false;
+		return this->y < n2.y;
+	}
 };
 
-// 비교 함수를 구현
-bool compare(node front, node back) {
-	if (front.x < back.x) return true;
-	if (front.x > back.x) return false;
-	return front.y < back.y;
-}
 
 int main() {
 	// freopen_s(new FILE*, "sample_input.txt", "r", stdin);
@@ -26,8 +26,7 @@ int main() {
 		scanf("%d %d", &arr[i].x, &arr[i].y);
 	}
 
-	// STL sort 이용
-	sort(arr, arr + n, compare);
+	sort(arr, arr + n); // 별도로 함수 지정 안해줘도 오버로딩된 연산자 < 를 사용함
 
 	for (int i = 0; i < n; i++) {
 		printf("%d %d\n", arr[i].x, arr[i].y);
