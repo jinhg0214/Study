@@ -1,13 +1,12 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
 
 int main() {
+	// freopen_s(new FILE*, "sample_input.txt", "r", stdin);
 
 	int dwarf[9];
-
 	int sum = 0;
 
 	for (int i = 0; i < 9; i++) {
@@ -16,26 +15,23 @@ int main() {
 	}
 
 	// 키순으로 정렬
-	sort(dwarf,dwarf+9);
+	sort(dwarf, dwarf + 9);
 
-	int index1, index2;
-
+	int idx1, idx2;
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
-			if (i != j && (sum - dwarf[i] - dwarf[j] == 100)) {
-				index1 = i;
-				index2 = j;
+			if (sum - dwarf[i] - dwarf[j] == 100) {
+				idx1 = i;
+				idx2 = j;
 			}
 		}
 	}
 
-	// index1,2 를 제외한 모두 출력
-	for (int i = 0; i < 9; i++) {
-		if (i != index1 && i != index2) {
-			cout << dwarf[i] << endl;
-		}
+	// 오름차순으로 정렬
+	for(int i=0; i<9; i++){
+		if (i == idx1 || i == idx2) continue;
+		cout << dwarf[i] << endl;
 	}
 
-
-
+	return 0;
 }
