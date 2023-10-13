@@ -1,2 +1,1 @@
-# c_cpp_projects
-C &amp; C++ Projects
+학습한 자료를 정리한 레포지토리
