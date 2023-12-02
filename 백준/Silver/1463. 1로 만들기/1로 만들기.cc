@@ -2,35 +2,32 @@
 
 using namespace std;
 
-int min_lev = 21e8;
+int min_level = 21e8;
 
-void DFS(int level, int num) {
-	if (level > min_lev) {
+void run(int level, int n) {
+	if (n < 1) return; // 바닥조건 1 : n이 1보다 작아진경우 더이상 안봄
+	if (level > min_level) return; // 바닥조건 2 : 이미 구한 최소값보다 더 커진 경우 더이상 안봄
+	if(n == 1){ // 바닥조건 3 : n이 1인 경우, 최소값을 갱신함
+		if (level < min_level) min_level = level;
 		return;
 	}
-	if (num == 1) {
-		if (level < min_lev) {
-			min_lev = level;
-		}
-		return;
+
+	if (n % 3 == 0) {
+		run(level + 1, n / 3);
 	}
-	
-	if ((num % 3) == 0) {
-		DFS(level + 1, num / 3);
+
+	if (n % 2 == 0) {
+		run(level + 1, n / 2);
 	}
-	if ((num % 2) == 0) {
-		DFS(level + 1, num / 2);
-	}
-	DFS(level + 1, num - 1);
+
+	run(level + 1, n - 1);
 }
 
 int main() {
-	int N;
-	cin >> N;
+	int X;
+	cin >> X;
 
-	DFS(0, N);
+	run(0, X);
 
-	cout << min_lev;
-
-	return 0;
+	cout << min_level;
 }
