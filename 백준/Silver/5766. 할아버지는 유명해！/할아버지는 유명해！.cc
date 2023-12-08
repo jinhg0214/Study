@@ -10,7 +10,7 @@ using namespace std;
 int player[MAX] = { 0 };
 
 int main() {
-	// freopen_s(new FILE*, "input.txt", "r", stdin);
+	//freopen_s(new FILE*, "input.txt", "r", stdin);
 	int N, M;
 
 	while (1) {
@@ -27,34 +27,26 @@ int main() {
 			}
 
 		}	
-		// 2. 그 주차의 2등 선수 출력
-			// 2-1. 먼저 1등 선수를 찾는다
-		int mvp_score = 0, mvp_idx;
+
+		// 2. 2등 구하기
+		int first = 0, second = 0;
 		for (int i = 0; i < MAX; i++) {
-			if (mvp_score < player[i]) {
-				mvp_idx = i;
-				mvp_score = player[i];
+			// 현재 1등보다 큰값이 나오면 1등값을 2등에게 주고, 1등값을 받아옴
+			if (first < player[i]) {
+				second = first;
+				first = player[i];
+			}
+			// 1등보다는 작은데, 1등과 같지 않고 2등보다 크다면 그 값을 2등에 넣는다
+			else if (second < player[i] && player[i] != first) {
+				second = player[i];
 			}
 		}
 
-		// 리더보드의 복사본
-		int player_backup[MAX];
-		memcpy(player_backup, player, sizeof(player));
+		// 2등 값과 같은 선소들을 찾아 벡터에 넣기
 
-		// 2등을 찾기 위해 1등 삭제
-		player_backup[mvp_idx] = 0;
-
-		// 일단 2등 점수를 찾고
-		int second_score = 0;
-		for (int i = 0; i < MAX; i++) {
-			if (second_score < player_backup[i]) {
-				second_score = player_backup[i];
-			}
-		}
-		// 이 점수와 같은 점수를 갖는 선수들을 찾는다
 		vector<int> res;
 		for (int i = 0; i < MAX; i++) {
-			if (second_score == player_backup[i]) {
+			if (second == player[i]) {
 				res.push_back(i);
 			}
 		}
@@ -66,9 +58,8 @@ int main() {
 	}
 
 	return 0;
-}
-
-/*
+    
+    /*
 각 선수는 1~10000까지의 정수(선수 번호)로 식별
 
 테스트 케이스의 첫 행에는 두 정수 N과 M
@@ -117,6 +108,8 @@ N과 M이 모두 0으로 주어지는 행이 인풋의 마지막임
 매주 랭킹에 선수의 이름이 오를 때마다 선수의 포인트가 1포인트씩 오른다고함
 주어지는 숫자는 순위가 아니라 다같이 1점씩 받는거임
 
-문제를 잘 읽자!!
+문제를 잘 읽을것
 
 */
+}
+
