@@ -14,7 +14,6 @@ int result_wolf = 0, result_sheep = 0;
 
 
 void BFS(int starty, int startx) {
-	memset(visited, 0, sizeof(visited));
 	queue<pair<int, int>> qu;
 	qu.push({ starty, startx });
 	visited[starty][startx] = 1;
@@ -66,7 +65,7 @@ int main() {
 
 	for (int y = 0; y < R; y++) {
 		for (int x = 0; x < C; x++) {
-			if (map[y][x] == 'v' || map[y][x] == 'k')
+			if (map[y][x] != '#' && visited[y][x] == 0)
 				BFS(y, x);
 		}
 	}
