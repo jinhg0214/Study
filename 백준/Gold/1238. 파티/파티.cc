@@ -5,69 +5,73 @@
 
 using namespace std;
 
-#define MAX 1005
+#define MAX 10001
+#define INF 21e8
 
-int N, M, target;
+int N, M, X;
 vector<pair<int, int>> map[MAX];
 int dist[MAX];
-int max_cost = 0;
+int result[MAX];
 
-void dijkstra(int start, int target) {
-	// 1. dist 배열 INF로 초기화
-	for (int i = 1; i <= N; i++) {
-		dist[i] = 21e8;
-	}
-	// 2. pq 선언 후 시작 노드 넣기
-	priority_queue<pair<int, int>> pq;
-	pq.push({ 0, start });// 시작점과 코스트를 저장
-	dist[start] = 0; // 시작 지점은 코스트 0
+
+// 시작지점부터 x까지의 최단거리를 찾는 다익스트라 함수
+void dijkstra(int start) {
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
+	pq.push({ 0, start });
+	dist[start] = 0;
 
 	while (!pq.empty()) {
-		int curDist = -pq.top().first; // 음수로 저장해서 최소값을 뽑았으므로, 다시 양수화시킴
-		int cur = pq.top().second; 
+		int curDist = pq.top().first;
+		int cur = pq.top().second;
 		pq.pop();
 
 		for (int i = 0; i < map[cur].size(); i++) {
-			int next = map[cur][i].first;
-			int nextDist = map[cur][i].second;
+			int nextDist = map[cur][i].first;
+			int next = map[cur][i].second;
 
-			// 현재 노드의 이동거리와 다음 노드의 이동거리의 합이 저장된 값보다 작다면 교체
 			if (curDist + nextDist < dist[next]) {
 				dist[next] = curDist + nextDist;
-				pq.push({-dist[next], next }); // 최소값을 뽑기 위해 음수화하여 저장
+				pq.push({ dist[next], next });
 			}
 		}
 	}
-
-
+	int de = -1;
 }
 
 int main() {
-	// freopen_s(new FILE*, "input.txt", "r", stdin);
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
-	cin >> N >> M >> target;
-
+	// freopen_s(new FILE*, "input.txt", "r", stdin);
+	cin >> N >> M >> X;
 	for (int i = 0; i < M; i++) {
-		int a, b, c;
-		cin >> a >> b >> c;
-		map[a].push_back({ b, c });
+		int start, end, cost;
+		cin >> start >> end >> cost;
+		map[start].push_back({ cost, end });
 	}
 
-	// 왕복 거리를 계산해야한다
-	// 1번부터 N번까지 
-	// i 에서 target으로 가는데 걸리는 cost를 계산하고
-	// target 에서 i로 돌아오는데 걸리는 cost 를 계산하여 더한 뒤 최대값인지 확인 
+	// 각 마을에서 X까지 가는 다익스트라 계산
 	for (int i = 1; i <= N; i++) {
-		int cur_cost = 0;
-		dijkstra(i, target);
-		cur_cost += dist[target];
-		dijkstra(target, i);
-		cur_cost += dist[i];
+		for (int j = 0; j <= N; j++) {
+			dist[j] = 21e8;
+		}
+		dijkstra(i);
+		result[i] = dist[X];
+	}
+	
+	// 파티장 X에서 각 마을로 돌아오는 다익스트라 계산
+	for (int j = 0; j <= N; j++) {
+		dist[j] = 21e8;
+	}
+	dijkstra(X);
 
-		max_cost = max(max_cost, cur_cost);
+	for (int i = 1; i <= N; i++) {
+		result[i] += dist[i];
 	}
 
+	int max_cost = 0;
+	for (int i = 1; i <= N; i++) {
+		max_cost = max(max_cost, result[i]);
+	}
 	cout << max_cost;
 
 	return 0;
