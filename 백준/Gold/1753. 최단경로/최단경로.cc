@@ -1,6 +1,6 @@
 #include <iostream>
-#include <queue>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -8,55 +8,60 @@ using namespace std;
 #define INF 21e8
 
 int V, E, start;
-int dist[MAX]; 
-vector<pair<int, int>>map[MAX];
-
+vector<pair<int, int>> v[MAX];
+int dist[MAX];
 
 void dijkstra(int start) {
-	for (int i = 1; i <= V; i++)
+	for (int i = 0; i <= V; i++) {
 		dist[i] = INF;
+	}
 
 	priority_queue<pair<int, int>> pq;
-	pq.push({ 0, start });
+	pq.push({ 0, start }); // 거리 0인 시작노드 추가
 	dist[start] = 0;
 
 	while (!pq.empty()) {
-		int cost = -pq.top().first;
+		int curDist = -pq.top().first;
 		int cur = pq.top().second;
 		pq.pop();
 
-		for (int i = 0; i < map[cur].size(); i++) {
-			int next = map[cur][i].first;
-			int nCost = map[cur][i].second;
+		// 현재 노드와 연결된 노드들 검색
+		for (int i = 0; i < v[cur].size(); i++) {
+			int nextDist = v[cur][i].first;
+			int next = v[cur][i].second;
 
-			if (dist[next] > cost + nCost) {
-				dist[next] = cost + nCost;
+			if (curDist + nextDist < dist[next]) {
+				dist[next] = curDist + nextDist;
 				pq.push({ -dist[next], next });
 			}
 		}
 	}
+
 }
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
-	
 	// freopen_s(new FILE*, "input.txt", "r", stdin);
-
 	cin >> V >> E >> start;
+
 	for (int i = 0; i < E; i++) {
-		int a, b, c; cin >> a >> b >> c;
-		map[a].push_back({ b, c });
+		int start, end, cost; 
+		cin >> start >> end >> cost;
+
+		v[start].push_back({ cost, end });
 	}
 
-	
 	dijkstra(start);
 
 	for (int i = 1; i <= V; i++) {
-		if (dist[i] == INF)
+		if (dist[i] == INF) {
 			cout << "INF" << endl;
-		else
+		}
+		else {
 			cout << dist[i] << endl;
+		}
 	}
 
+	return 0;
 }
