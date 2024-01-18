@@ -16,6 +16,9 @@ int result[MAX];
 
 // 시작지점부터 x까지의 최단거리를 찾는 다익스트라 함수
 void dijkstra(int start) {
+	for (int i = 0; i <= N; i++) {
+		dist[i] = 21e8;
+	}
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>>pq;
 	pq.push({ 0, start });
 	dist[start] = 0;
@@ -35,7 +38,6 @@ void dijkstra(int start) {
 			}
 		}
 	}
-	int de = -1;
 }
 
 int main() {
@@ -51,17 +53,11 @@ int main() {
 
 	// 각 마을에서 X까지 가는 다익스트라 계산
 	for (int i = 1; i <= N; i++) {
-		for (int j = 0; j <= N; j++) {
-			dist[j] = 21e8;
-		}
 		dijkstra(i);
 		result[i] = dist[X];
 	}
 	
 	// 파티장 X에서 각 마을로 돌아오는 다익스트라 계산
-	for (int j = 0; j <= N; j++) {
-		dist[j] = 21e8;
-	}
 	dijkstra(X);
 
 	for (int i = 1; i <= N; i++) {
