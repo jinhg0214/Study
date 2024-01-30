@@ -3,60 +3,55 @@
 
 using namespace std;
 
-vector<int> tree[51]; // 각 노드의 부모 노드의 정보를 가지는 벡터. 트리를 직접 구현하지 않음
+int N, root, dnode, leaf = 0;
+vector<int> tree[51];
 bool visited[51];
-int root, k, leaf = 0;
 
 void dfs(int node) {
-
-	// 탈출 조건 1. 이미 방문한 노드
-	if (visited[node]) return;
+	// 탈출 조건 1. 이미 방문한 노드인 경우
+	if (visited[node] == true) return;
 
 	visited[node] = true;
 
-	// 리프 노드인경우
+	// 탈출 조건 2. 리프 노드인경우
 	if (tree[node].size() == 0) {
 		leaf++;
 		return;
 	}
-	// 혹은 자식 개수가 1개인데, 그 자식이 삭제할 노드인 경우
-	else if (tree[node].size() == 1 && tree[node][0] == k) {
+	// 탈출 조건 3. 자식이 1개인 노드인데, 그 자식이 삭제할 노드일 경우 리프노드가 된다
+	else if (tree[node].size() == 1 && tree[node][0] == dnode) {
 		leaf++;
 		return;
 	}
 
-	// 자식들 탐색
+	// 그 외의 경우는 DFS 탐색
 	for (int i = 0; i < tree[node].size(); i++) {
-		// 삭제할 노드라면 패스
-		if (tree[node][i] == k) continue;
-		// 아니라면 더 들어가본다
+		if (tree[node][i] == dnode) continue;
 		dfs(tree[node][i]);
 	}
 }
 
 int main() {
 	// freopen_s(new FILE*, "input.txt", "r", stdin);
-	int N;
-	cin >> N;
 
+	cin >> N;
 	for (int i = 0; i < N; i++) {
 		int node;  cin >> node;
-		if (node == -1) {
+		if (node == -1) 
 			root = i;
-		}
-		else {
-			tree[node].push_back(i); // 노드의 부모 노드를 저장
-		}
+		else
+			tree[node].push_back(i); // i번째 노드의 부모 노드가 주어짐 
 	}
-
-	cin >> k; // 지울 노드 입력
-	// 루트 지우는 경우 다날라감
-	if (k == root) {
+	cin >> dnode;
+	if (dnode == root) {
 		cout << 0;
 		return 0;
 	}
 
-	dfs(root); // k 를 지우면 k와 연결된 모든 노드 정보들도 삭제된다
+
+	dfs(root);
+
 	cout << leaf;
+
 	return 0;
 }
