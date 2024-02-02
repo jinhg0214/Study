@@ -4,58 +4,58 @@
 using namespace std;
 
 int N, M;
-int map[101][101];
-int visited[101][101];
-
-int direct[4][2] = { 0,1, 1,0, -1,0, 0,-1 };
+int map[102][102];
+int visited[102][102] = { 0 };
+int direct[4][2] = { 1,0, 0,1, -1,0, 0,-1 };
 
 struct node {
 	int y;
 	int x;
-	int level;
+	int cost;
 };
 
-void Input() {
+int main() {
+	// freopen_s(new FILE*, "input.txt", "r", stdin);
+
 	cin >> N >> M;
+
 	for (int y = 0; y < N; y++) {
 		for (int x = 0; x < M; x++) {
-			scanf("%1d", &map[y][x]);
+			char ch;
+			cin >> ch;
+			map[y][x] = (ch - '0');
 		}
 	}
-}
 
-int main() {
-	// freopen_s(new FILE*, "test.txt", "r", stdin);
-	Input();
-
-	queue< node > qu;
+	queue<node> qu;
+	int res = 1;
 	visited[0][0] = 1;
+	qu.push({ 0,0,0 });
 
-	qu.push({ 0,0,0 } );
-	
 	while (!qu.empty()) {
 		node now = qu.front();
 		qu.pop();
 
 		if (now.y == N - 1 && now.x == M - 1) {
-			cout << now.level+1;
-			break;
+			res = now.cost + 1; // 마지막칸 포함
 		}
 
 		for (int t = 0; t < 4; t++) {
-			int dy = now.y + direct[t][0];
-			int dx = now.x + direct[t][1];
+			int dy = direct[t][0] + now.y;
+			int dx = direct[t][1] + now.x;
 
-			if (dy < 0 || dx < 0 || dy >= N || dx >= M) continue; // 경계처리
-			if (map[dy][dx] == 0) continue; // 이동불가
-			if (visited[dy][dx] == 1) continue; // 이미 방문
+			if (dy < 0 || dx < 0 || dy > N || dx > M) continue;
+			if (map[dy][dx] == 0) continue;
+			if (visited[dy][dx] == 1) continue;
+			
 
 			visited[dy][dx] = 1;
-			qu.push({ dy, dx, now.level + 1 } );
-		}
+			qu.push({ dy, dx, now.cost+1 });
 
+		}
 	}
-	
+
+	cout << res;
 
 	return 0;
 }
