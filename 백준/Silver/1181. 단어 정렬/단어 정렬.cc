@@ -1,66 +1,36 @@
 #include <iostream>
-#include <string>
+#include <vector>
 #include <algorithm>
 
 using namespace std;
 
-string str[20005];
+int N;
+vector<string> book;
 
-void swap(string& a, string& b) {
-	string tmp = a;
-	a = b;
-	b = tmp;
-}
-
-bool compare(string s1, string s2) {
-	if (s1.size() < s2.size()) return true;
-	else if (s1.size() > s2.size()) return false;
-
-	if (s1 == s2) return false; // 둘이 완전 같다면 비교 안함
-
-	int str_size = s1.size();
-	for (int i = 0; i<str_size; i++) {
-		if (s1[i] > s2[i]) return false;
-		else if (s1[i] < s2[i]) return true;
-	}
+bool compare(string a, string b) {
+	if (a.length() < b.length()) return true;
+	else if ((a.length() > b.length())) return false;
+	else return a < b;
 }
 
 int main() {
-	// freopen_s(new FILE*, "sample_input.txt", "r", stdin);
-	
-	int N;
+	// freopen_s(new FILE*, "input.txt", "r", stdin);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
 	cin >> N;
-
-	for (int i = 0; i < N; i++) {
-		cin >> str[i];
+	string input;
+	while (N--) {
+		cin >> input;
+		book.push_back(input);
 	}
 
-	// 버블정렬 이용 -> 시간초과
-	//for (int i = 0; i < N; i++) {
-	//	for (int j = 0; j < i; j++) {
-	//		// 정렬 기준 1. 길이가 짧은 것 부터,
-	//		if (str[j].size() > str[i].size()) {
-	//			swap(str[j], str[i]);
-	//		}
-	//		// 정렬 기준 2. 길이가 같다면 사전 순으로
-	//		else if (str[j].size() == str[i].size()) {
-	//			for (int k = 0; k < str[i].size(); k++) {
-	//				if (str[i][k] < str[j][k]) {
-	//					swap(str[i], str[j]);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
+	sort(book.begin(), book.end(), compare);
+	book.erase(unique(book.begin(), book.end()), book.end());
+	
 
-	// algorithm 라이브러리 내 sort 함수 사용
-	sort(str, str + N, compare);
 
-	// 같은 단어가 입력된 경우 한번씩만 출력
-	cout << str[0] << endl;
-	for (int i = 1; i < N; i++) {
-		if (str[i] == str[i - 1]) continue;
-		cout << str[i] << endl;
+	for (string e : book) {
+		cout << e << endl;
 	}
 
 	return 0;
