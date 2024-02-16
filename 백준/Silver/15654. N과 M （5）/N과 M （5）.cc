@@ -1,49 +1,49 @@
 #include <iostream>
 #include <algorithm>
 
-#define MAX 9
-
 using namespace std;
 
 int N, M;
-int arr[MAX];
-int path[MAX];
-bool visited[MAX];
+int arr[10];
+int path[10];
+bool visited[10];
 
-void DFS(int level) {
+void dfs(int level) {
 	if (level == M) {
 		for (int i = 0; i < M; i++) {
-			printf("%d ", path[i]);
+			cout << path[i] << " ";
 		}
-		printf("\n");
+		cout << '\n';
 		return;
 	}
 
-	for (int t = 0; t < N; t++) {
-		if (visited[t] == true) continue;
+	for (int i = 0; i < N; i++) {
+		if (visited[i] == true) continue;
+		
+		visited[i] = true;
+		path[level] = arr[i];
+		
+		dfs(level + 1);
 
-		visited[t] = true;
-		path[level] = arr[t];
-
-		DFS(level + 1);
-
-		visited[t] = false;
+		visited[i] = false;
 		path[level] = 0;
+
 	}
+	return;
 }
 
 int main() {
-	// freopen_s(new FILE*, "sample_input.txt", "r", stdin);
-	
-	scanf("%d %d", &N, &M);
-
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL); cout.tie(NULL);
+	// freopen_s(new FILE*, "input.txt", "r", stdin);
+	cin >> N >> M;
 	for (int i = 0; i < N; i++) {
-		scanf("%d", &arr[i]);
+		cin >> arr[i];
 	}
 
-	sort(arr, arr + N);
+	sort(arr, arr+N);
 
-	DFS(0);
+	dfs(0);
 
 	return 0;
 }
