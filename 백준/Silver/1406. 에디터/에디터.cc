@@ -1,51 +1,59 @@
 #include <iostream>
-#include <list>
+#include <stack>
 
 using namespace std;
 
 int main() {
 	// freopen_s(new FILE*, "input.txt", "r", stdin);
 
-	int M;
-	string s = "";
+	string str;  cin >> str;
 
-	cin >> s;
+	stack<char> left;
+	stack<char> right; // right은 거꾸로 쌓이는것에 주의할 것
 
-	list<char> li(s.begin(), s.end()); // 이렇게 생성 가능
+	for (char ch : str) {
+		left.push(ch);
+	}
 
-	list<char>::iterator cursor;
-	cursor = li.end();
-
-	cin >> M;
-
+	int M; cin >> M;
 	while (M--) {
 		char cmd, c; cin >> cmd;
-
 		switch (cmd)
 		{
 		case 'L':
-			if (cursor != li.begin())
-				cursor--;
+			if (!left.empty()) {
+				right.push(left.top());
+				left.pop();
+			}
 			break;
 		case 'D':
-			if (cursor != li.end())
-				cursor++;
+			if (!right.empty()) {
+				left.push(right.top());
+				right.pop();
+			}
 			break;
 		case 'B':
-			if (cursor != li.begin()) {
-				cursor--;
-				cursor = li.erase(cursor); // 삭제 하고 iterator를 반환하는듯함
+			if (!left.empty()) {
+				left.pop();
 			}
 			break;
 		case 'P':
 			cin >> c;
-			li.insert(cursor, c); // iter 위치에 삽입
+			left.push(c);
+			break;
+		default:
 			break;
 		}
 	}
 
-	for (cursor = li.begin(); cursor != li.end(); cursor++) {
-		cout << *cursor;
+	while (!left.empty()) {
+		right.push(left.top());
+		left.pop();
+	}
+
+	while (!right.empty()) {
+		cout << right.top();
+		right.pop();
 	}
 
 	return 0;
