@@ -2,31 +2,24 @@
 
 using namespace std;
 
-int cnt = 0;
-int T, N;
-
-void Permutation(int level, int sum) {
-	if (sum > N) return;
-	if (sum == N) {
-		cnt++;
-		return;
-	}
-
-	for (int x = 1; x <= 3; x++) {
-		Permutation(level + 1, sum + x);
-	}
-}
+int dp[11];
 
 int main() {
-	// freopen_s(new FILE*, "input.txt", "r", stdin);
 
-	cin >> T;
-	while (T--) {
-		cnt = 0;
-		cin >> N;
-		Permutation(0, 0);
-		cout << cnt << '\n';
+	dp[1] = 1;
+	dp[2] = 2;
+	dp[3] = 4;
+
+	for (int i = 4; i <= 10; i++) {
+		dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1];
 	}
 
+	int T; cin >> T;
+	while (T--) {
+		int n;
+		cin >> n;
+		cout << dp[n] << '\n';
+	}
+	
 	return 0;
 }
