@@ -1,42 +1,35 @@
-#include <iostream>
-
-#define MAX 9
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int N, M;
-int path[MAX];
-int visited[MAX];
+int used[10];
+int arr[10];
 
-void DFS(int level, int num) {
-	// M개를 선택한 경우 선택한 수들을 출력한다
-	if (level >= M) {
+void run(int level, int start) {
+	if (level == M) {
 		for (int i = 0; i < M; i++) {
-			cout << path[i] << " ";
+			cout << arr[i] << " ";
 		}
-		cout << endl;
+		cout << '\n';
 		return;
 	}
-	// 1~N 중에 어떤걸 선택할 것인지
-	for(int i=num; i<=N; i++){
-		if (visited[i] == 1) continue; // 이미 선택했었던 수라면 패스
+	for (int i = start; i <= N; i++) {
+		if (used[i] == 1) continue;
 
-		visited[i] = 1;
-		path[level] = i;
+		used[i] = 1; 
+		arr[level] = i;
 
+		run(level+1, i);
 
-		DFS(level + 1, i);
-
-		visited[i] = 0;
-		path[level] = 0;
+		used[i] = 0;
 	}
-
 }
 
 int main() {
-	scanf("%d %d", &N, &M);
+	cin >> N >> M;
 
-	DFS(0, 1);
+	run(0, 1);
 
 	return 0;
 }
