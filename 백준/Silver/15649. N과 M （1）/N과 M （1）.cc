@@ -1,45 +1,33 @@
-// 1부터 N까지 자연수중에 중복 없이 M개를 고른 수열 => 순열
-// branch : n, Level : m인 재귀함수
-
-
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int path[10] = { 0 };
-int used[10] = { 0 };
+int N, M;
+int used[10];
+int path[10];
 
-void recursion(int Lv, int n, int m) {
-
-	if(Lv == m) {
-
-		for (int i = 0; i < Lv; i++) {
-			cout << path[i] << " ";
-		}cout << '\n';
-		
+void run(int level) {
+	if (level > M) {
+		for (int i = 1; i <= M; i++) {
+			cout << path[i] << ' ';
+		}
+		cout << '\n';
 		return;
 	}
 
-	for (int x = 1; x <= n; x++) {
-		// 이미 한번 쓴 수인지 확인
-		if (used[x] == true) { continue; }
-
-		used[x] = 1;
-		path[Lv] = x;
-
-		recursion(Lv + 1, n, m);
-
-		path[Lv] = 0; 
-		used[x] = 0;
+	for (int i = 1; i <= N; i++) {
+		if (used[i] == 1) continue;
+		used[i] = 1;
+		path[level] = i;
+		run(level + 1);
+		used[i] = 0;
 	}
 }
 
 int main() {
-	int n, m;
+	cin >> N >> M;
 
-	cin >> n >> m;
-
-	recursion(0, n, m);
+	run(1);
 
 	return 0;
 }
