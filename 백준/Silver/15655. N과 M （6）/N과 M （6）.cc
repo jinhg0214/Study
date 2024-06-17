@@ -1,48 +1,44 @@
-#include <iostream>
-#include <algorithm>
-
-#define MAX 9
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int N, M;
-int arr[MAX];
-int path[MAX];
-bool visited[MAX];
+vector<int> v;
+int used[10];
+vector<int> path;
 
-void DFS(int level, int start){
+void run(int level) {
+	if (level >= 2 && path[level - 2] > path[level - 1]) return;
 	if (level == M) {
-		for (int i = 0; i < level; i++) {
-			printf("%d ", path[i]);
+		for (int e : path) {
+			cout << e << ' ';
 		}
-		printf("\n");
+		cout << '\n';
 		return;
 	}
-	for (int t = start; t < N; t++) {
-		if (visited[t] == true)continue;
 
-		visited[t] = 1;
-		path[level] = arr[t];
+	for (int i = 0; i < N; i++) {
+		if (used[i] == 1) continue;
+		used[i] = 1;
+		path.push_back(v[i]);
 
-		DFS(level + 1, t);
+		run(level + 1);
 
-		visited[t] = 0;
-		path[level] = 0;
-
+		used[i] = 0;
+		path.pop_back();
 	}
-
-	return;
 }
 
 int main() {
-	scanf("%d %d", &N, &M);
+	cin >> N >> M;
+
+	v.resize(N);
 	for (int i = 0; i < N; i++) {
-		scanf("%d", &arr[i]);
+		cin >> v[i];
 	}
-
-	sort(arr, arr + N);
-
-	DFS(0, 0);
+	sort(v.begin(), v.end());
+	
+	run(0);
 
 	return 0;
 }
