@@ -1,33 +1,30 @@
-#include <iostream>
-
-#define MAX 9
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int N, M;
-int path[MAX];
+int path[10];
 
-void DFS(int level, int start) {
+void run(int level) {
+	if (level >= 2 && path[level - 2] > path[level - 1]) return;
 	if (level == M) {
-		for (int i = 0; i < level; i++) {
-			printf("%d ", path[i]);
+		for (int i = 0; i < M; i++) {
+			cout << path[i] << ' ';
 		}
-		printf("\n");
+		cout << '\n';
 		return;
 	}
 
-	for (int t = start; t <= N; t++) {
-		path[level] = t;
-		DFS(level + 1, t);
-		path[level] = 0;
+	for (int i = 1; i <= N; i++) {
+		path[level] = i;
+		run(level + 1);
 	}
-
 }
 
 int main() {
-	scanf("%d %d", &N, &M);
+	cin >> N >> M;
 
-	DFS(0, 1);
+	run(0);
 
 	return 0;
 }
