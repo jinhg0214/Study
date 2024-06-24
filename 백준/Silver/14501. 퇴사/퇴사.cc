@@ -2,41 +2,34 @@
 
 using namespace std;
 
-/*배열 크기를 21로 설정한 이유는 N이 최대 15까지 들어올 수 있는데, 
- 15일에 5일짜리 일을 수주하면 20일까지 검사해야함! + 1*/
-int T[21]; // 상담하는데 걸리는 일 수 
-int P[21]; // 상담 비용
-int n; // 남은 일수
-int ans = 0;
+int N;
+int T[16], P[16];
+int sum = 0, res = 0;
 
-void go(int day, int sum) {
-
-	// case2 : 정답인 경우 (퇴사날을 맞춰 일을 받음)
-	if (day == n + 1) {
-		if (ans < sum) { // sum이 최대값인 경우
-			ans = sum;
+void DFS(int level, int sum) {
+	if (level > N) return; // 가지치기 조건1 : 퇴사일을 넘어가는 경우
+	if (level == N) {
+		if (sum > res) {
+			res = sum;
 		}
 		return;
 	}
+	DFS(level + 1, sum); // 선택 안하고 다음날로 넘어가는 경우
+	DFS(level + T[level], sum + P[level]); // 오늘 일을 수주하는 경우
 
-	// case1 : 불가능한 경우 (퇴사날 초과)
-	if (day > n + 1) return;
-
-	// case3 : 다음 경우 호출
-	go(day + 1, sum);				// 상담을 하지 않는 경우
-	go(day + T[day], sum + P[day]); // 상담을 하는 경우
+	return;
 }
 
 int main() {
-
-	cin >> n;
-	for (int i = 1; i <= n; i++) { /* !!!!!!!!  1일부터 N일 까지 계산해야 하므로, T[1],P[1]부터 입력받아야함!!*/
-		scanf("%d %d", &T[i], &P[i]);
+	// freopen_s(new FILE*, "sample_input.txt", "r", stdin);
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		cin >> T[i] >> P[i];
 	}
-	
-	go(1,0); // 1일, 0원부터 시작
 
-	cout << ans << '\n';
+	DFS(0, 0);
+
+	cout << res;
 
 	return 0;
 }
