@@ -1,13 +1,6 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
-
-int L, C;
-vector<char> v;
-int used[16];
 
 bool check(string str) {
 	int consonant = 0;
@@ -28,30 +21,11 @@ bool check(string str) {
 	}
 }
 
-void recursion(string str, int level, int start) {
-	if (str.size() == L) {
-		if (check(str)) {
-			cout << str << '\n';
-		} 
-		return;
-	}
-
-	for (int i = start; i < v.size(); i++) {
-		if (used[i]) continue;
-
-		used[i] = 1;
-		str += v[i];
-
-		recursion(str, level + 1, i);
-
-		used[i] = 0;
-		str.pop_back();
-	}
-}
-
 int main() {
 	// freopen_s(new FILE*, "input.txt", "r", stdin);
 
+	int L, C;
+	vector<char> v;
 	cin >> L >> C;
 	v.resize(C);
 
@@ -61,7 +35,25 @@ int main() {
 
 	sort(v.begin(), v.end());
 
-	recursion("", 0, 0);
+	vector<int> idx; // 조합을 위한 벡터
+	for (int i = 0; i < L; i++) {
+		idx.push_back(0);
+	}
+	for (int i = 0; i < C-L; i++) {
+		idx.push_back(1);
+	}
+
+	do {
+		string str = "";
+		for (int i = 0; i < idx.size(); i++) {
+			if (idx[i] == 0) {
+				str += v[i];
+			}
+		}
+		if (check(str)) {
+			cout << str << '\n';
+		}
+	} while (next_permutation(idx.begin(), idx.end()));
 
 	return 0;
 }
